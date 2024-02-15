@@ -158,7 +158,7 @@ export default function Register() {
                     </div>
 
                     <div className="mb-3">
-                        <label htmlFor="rePassword">rePassword:</label>
+                        <label htmlFor="rePassword">Repassword:</label>
                         <input
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -182,7 +182,7 @@ export default function Register() {
                     </div>
 
                     <div className="mb-3">
-                        <label htmlFor="phone">phone:</label>
+                        <label htmlFor="phone">Phone:</label>
                         <input
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}

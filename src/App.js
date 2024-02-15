@@ -7,9 +7,12 @@ import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import Categories from "./Components/Categories/Categories";
 import Layout from "./Components/Layout/Layout";
-import { UserCotextProvider, UserContext } from "./Context/UserCotext";
-import { useContext, useEffect } from "react";
+import { UserCotextProvider } from "./Context/UserCotext";
 import NoutFound from "./Components/NotFound/NoutFound";
+import ForgetPassword from "./Components/ForgetPassword/ForgetPassword";
+import GuardRouting from "./Components/GuardRouting/GuardRouting";
+import RegisterCheck from "./Components/RegisterCheck/RegisterCheck";
+import ResetPassword from "./Components/ResetPassword/ResetPassword";
 
 function App() {
     let routes = createBrowserRouter([
@@ -17,14 +20,61 @@ function App() {
             path: "/",
             element: <Layout />,
             children: [
-                { path: "home", element: <Home /> },
-                { path: "/Products", element: <Products /> },
-                { path: "*", element: <NoutFound /> },
-                { path: "/Cart", element: <Cart /> },
-                { path: "/Categories", element: <Categories /> },
-                { path: "/Brands", element: <Brands /> },
+                {
+                    path: "home",
+                    element: (
+                        <GuardRouting>
+                            <Home />
+                        </GuardRouting>
+                    ),
+                },
+
+                {
+                    path: "/Products",
+                    element: (
+                        <GuardRouting>
+                            <Products />
+                        </GuardRouting>
+                    ),
+                },
+                {
+                    path: "/Cart",
+                    element: (
+                        <GuardRouting>
+                            <Cart />
+                        </GuardRouting>
+                    ),
+                },
+                {
+                    path: "/Categories",
+                    element: (
+                        <GuardRouting>
+                            <Categories />
+                        </GuardRouting>
+                    ),
+                },
+                {
+                    path: "/Brands",
+                    element: (
+                        <GuardRouting>
+                            <Brands />
+                        </GuardRouting>
+                    ),
+                },
+
+                {
+                    index: true,
+                    element: (
+                        <RegisterCheck>
+                            <Register />
+                        </RegisterCheck>
+                    ),
+                },
+
+                { path: "/forget", element: <ForgetPassword /> },
+                { path: "/restpass", element: <ResetPassword /> },
                 { path: "/Login", element: <Login /> },
-                { index: true, element: <Register /> },
+                { path: "*", element: <NoutFound /> },
             ],
         },
     ]);

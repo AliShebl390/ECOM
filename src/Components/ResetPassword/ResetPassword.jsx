@@ -1,12 +1,11 @@
 import React, { useContext, useState } from "react";
-import styles from "./Login.module.css";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/UserCotext";
 
-export default function Register() {
+export default function ResetPassword() {
     const navg = useNavigate();
     let [errMes, setErr] = useState("");
     let [sucMes, setSuc] = useState("");
@@ -18,7 +17,7 @@ export default function Register() {
         email: Yup.string()
             .email("Email is Invalid")
             .required("Email is required"),
-        password: Yup.string()
+        newPassword: Yup.string()
             .matches(
                 /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
                 "At least 8 characters long, Contains at least one uppercase letter And, Contains at least one lowercase letter."
@@ -30,30 +29,34 @@ export default function Register() {
         //intial values
         initialValues: {
             email: "",
-            password: "",
+            newPassword: "",
         },
         //validate
         validationSchema,
         // function
-        onSubmit: sendData,
+        onSubmit: sendNewPass,
     });
 
     // Send The data to Database
-    async function sendData(values) {
+    async function sendNewPass(values) {
         setLoading(false);
         let req = await axios
-            .post("https://ecommerce.routemisr.com/api/v1/auth/signin", values)
+            .put(
+                "https://ecommerce.routemisr.com/api/v1/auth/resetPassword",
+                values
+            )
             .catch((err) => {
+                console.log(err);
                 setErr(err.response.data.message);
                 setSuc("");
                 setLoading(true);
             });
-        if (req.data.message == "success") {
-            setSuc(req.data.message);
-            setUserToken(req.data.token);
+        console.log(req);
+        if (req.data.token) {
+            setSuc(req.statusText);
+            setUserToken();
             setLoading(true);
-            localStorage.setItem("userToken", req.data.token);
-            navg("/home");
+            navg("/login");
         }
     }
     // ############################################
@@ -62,7 +65,6 @@ export default function Register() {
     return (
         <>
             <div className="container py-5">
-                <h2>Login Now!</h2>
                 {errMes && !sucMes ? (
                     <div className="text-capitalize alert alert-danger">
                         {errMes}
@@ -104,7 +106,7 @@ export default function Register() {
                     </div>
 
                     <div className="mb-3">
-                        <label htmlFor="password">Password:</label>
+                        <label htmlFor="newPassword">New Passwrod:</label>
                         <input
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -114,20 +116,18 @@ export default function Register() {
                                     ? "mt-1 form-control"
                                     : "mt-1 form-control"
                             }
-                            name="password"
-                            id="password"
+                            name="newPassword"
+                            id="newPassword"
                         />
-                        {formik.errors.password && formik.touched.password ? (
+                        {formik.errors.newPassword &&
+                        formik.touched.newPassword ? (
                             <div className="alert alert-danger mt-1">
-                                {formik.errors.password}
+                                {formik.errors.newPassword}
                             </div>
                         ) : (
                             ""
                         )}
                     </div>
-                    <Link to={"/forget"} className="forget">
-                        Forgot Password?
-                    </Link>
                     {lodaing ? (
                         <button
                             disabled={!(formik.isValid && formik.dirty)}

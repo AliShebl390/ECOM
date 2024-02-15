@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import styles from "./Navbar.module.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../../Assets/images/freshcart-logo.svg";
-import { CounterContext } from "../../Context/Context";
 import { UserContext } from "../../Context/UserCotext";
 
 export default function Navbar() {
@@ -39,7 +38,7 @@ export default function Navbar() {
                         {userToken !== null ? (
                             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                                 <li className="nav-item">
-                                    <NavLink className="nav-link" to="/">
+                                    <NavLink className="nav-link" to="/home">
                                         Home
                                     </NavLink>
                                 </li>
