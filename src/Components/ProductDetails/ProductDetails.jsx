@@ -1,16 +1,35 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../Loader/Loader";
 import { useQuery } from "react-query";
+import toast, { Toaster } from "react-hot-toast";
+import { CartContext } from "../../Context/CartContext";
 
 export default function ProductDetails() {
     let proID = useParams();
     let [productId, setProductId] = useState("");
+    let { addCart } = useContext(CartContext);
     async function getProductDetails(queryData) {
         return await axios.get(
             `https://ecommerce.routemisr.com/api/v1/products/${queryData.queryKey[1]}`
         );
+    }
+
+    async function addToCart(id) {
+        let response = await addCart(id);
+        if (response.data.status === "success") {
+            toast.success(response.data.message, {
+                style: {
+                    boxShadow: "none",
+                    borderRadius: "10px",
+                    background: "#333",
+                    color: "#fff",
+                    maxWidth: "385px",
+                },
+                position: "top-left",
+            });
+        }
     }
 
     useEffect(() => {
@@ -24,6 +43,7 @@ export default function ProductDetails() {
     let product = data?.data.data;
     return (
         <>
+            <Toaster />
             {isLoading && <Loader />}
             {product ? (
                 <div className="container py-5">
@@ -48,7 +68,10 @@ export default function ProductDetails() {
                                     {product.ratingsAverage}
                                 </span>
                             </div>
-                            <button className="btn bg-main text-white mt-3">
+                            <button
+                                onClick={() => addToCart(product._id)}
+                                className="btn bg-main text-white mt-3"
+                            >
                                 Add To Cart
                             </button>
                         </div>

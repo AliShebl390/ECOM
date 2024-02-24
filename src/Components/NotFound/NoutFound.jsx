@@ -4,19 +4,19 @@ import errImg from "../../Assets/images/error.svg";
 
 export default function NoutFound() {
     return (
-        <div className="container py-5 d-flex flex-column">
+        <div className="container py-5 align-items-center justify-content-center h-100 d-flex flex-column">
+            <div className="fa-2x">
             <h2>Not Found!!!</h2>
-            <p className="fa-2x">
                 Redirect{" "}
-                <Link className="link-dark " to={"/"}>
+                <Link style={{textDecoration:"underLine"}} to={"/"}>
                     !Here
                 </Link>
                 <img
                     src={errImg}
-                    className="d-block mt-5"
+                    className="w-100 d-block mt-5"
                     alt=""
                 />
-            </p>
+            </div>
         </div>
     );
 }

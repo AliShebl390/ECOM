@@ -17,7 +17,9 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import ProductDetails from "./Components/ProductDetails/ProductDetails";
 import CartContextProvider from "./Context/CartContext";
-import toast, { Toaster } from "react-hot-toast";
+import Address from "./Components/Adress/Address";
+import LoginCheck from "./Components/loginCheck/loginCheck";
+import VerifyCode from "./Components/VerifyCode/VerifyCode";
 
 function App() {
     let query = new QueryClient();
@@ -54,6 +56,15 @@ function App() {
                 },
 
                 {
+                    path: "/address/:id",
+                    element: (
+                        <GuardRouting>
+                            <Address />
+                        </GuardRouting>
+                    ),
+                },
+
+                {
                     path: "/Cart",
                     element: (
                         <GuardRouting>
@@ -69,6 +80,7 @@ function App() {
                         </GuardRouting>
                     ),
                 },
+
                 {
                     path: "/Brands",
                     element: (
@@ -87,9 +99,18 @@ function App() {
                     ),
                 },
 
-                { path: "/forget", element: <ForgetPassword /> },
-                { path: "/restpass", element: <ResetPassword /> },
-                { path: "/Login", element: <Login /> },
+                {
+                    path: "Login",
+                    element: (
+                        <LoginCheck>
+                            <Login />
+                        </LoginCheck>
+                    ),
+                },
+
+                { path: "forget", element: <ForgetPassword /> },
+                { path: "resetpassword", element: <ResetPassword /> },
+                { path: "verifyCode", element: <VerifyCode /> },
                 { path: "*", element: <NoutFound /> },
             ],
         },

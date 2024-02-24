@@ -13,19 +13,13 @@ export default function Register() {
     let [lodaing, setLoading] = useState(true);
     let { setUserToken } = useContext(UserContext);
 
-    // Formik calidationSchema
     let validationSchema = Yup.object({
         email: Yup.string()
             .email("Email is Invalid")
             .required("Email is required"),
-        password: Yup.string()
-            .matches(
-                /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
-                "At least 8 characters long, Contains at least one uppercase letter And, Contains at least one lowercase letter."
-            )
-            .required("Password is required"),
+        password: Yup.string().required("Password is required"),
     });
-    // Formik setup
+    
     let formik = useFormik({
         //intial values
         initialValues: {

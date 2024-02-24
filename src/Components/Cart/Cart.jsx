@@ -1,16 +1,90 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../Context/CartContext";
-import { useQuery } from "react-query";
 import Loader from "../Loader/Loader";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 export default function Cart() {
-    let { getCart } = useContext(CartContext);
+    let { getCart, removeItem, updateItem } = useContext(CartContext);
+    let [isLoading, setIsLoading] = useState(false);
+    let [data, setData] = useState(null);
 
-    function getData() {
-        return getCart();
+    useEffect(() => {
+        getData();
+    }, []);
+
+    async function getData() {
+        let response = await getCart().catch((err) => err);
+        if (response?.data?.status === "success") {
+            setData(response.data);
+            setIsLoading(false);
+        } else {
+            setIsLoading(false);
+        }
     }
-    let { data, isLoading } = useQuery("cartData", getData);
-    console.log(data?.data.data.products);
+
+    async function removeSpecificItem(id) {
+        let response = await removeItem(id).catch((err) => err);
+        if (response.data.status === "success") {
+            toast.error("Item Is Removed", {
+                style: {
+                    boxShadow: "none",
+                    borderRadius: "10px",
+                    background: "#333",
+                    color: "#fff",
+                    maxWidth: "385px",
+                },
+                position: "top-left",
+            });
+            setData(response.data);
+            setIsLoading(false);
+        }
+    }
+    async function clearCart() {
+        let headers = {
+            headers: {
+                token: localStorage.getItem("userToken"),
+            },
+        };
+
+        let response = await axios
+            .delete(`https://ecommerce.routemisr.com/api/v1/cart`, headers)
+            .catch((err) => err);
+        if (response.data.message === "success") {
+            toast.success("Cart Is Cleared", {
+                style: {
+                    boxShadow: "none",
+                    borderRadius: "10px",
+                    background: "#333",
+                    color: "#fff",
+                    maxWidth: "385px",
+                },
+                position: "top-left",
+            });
+            setData(response.data);
+            setIsLoading(false);
+        }
+        setData(null);
+    }
+
+    async function updateSpecificItem(id, count) {
+        let response = await updateItem(id, count).catch((err) => err);
+        if (response.data.status === "success") {
+            toast.success("Item Is Updated", {
+                style: {
+                    boxShadow: "none",
+                    borderRadius: "10px",
+                    background: "#333",
+                    color: "#fff",
+                    maxWidth: "385px",
+                },
+                position: "top-left",
+            });
+            setData(response.data);
+            setIsLoading(false);
+        }
+    }
 
     return (
         <>
@@ -18,29 +92,37 @@ export default function Cart() {
                 <Loader />
             ) : (
                 <div className="container rounded-3 p-5 my-5 cart">
-                    <h2 className="text-black bg-body-secondary fw-bolder rounded-4 p-3 text-center">
-                        Cart items : {data?.data?.numOfCartItems}
+                    <Toaster />
+                    <h2 className="text-black bg-body-secondary fw-bolder rounded-2 p-3 text-center">
+                        {data?.data?.products?.length
+                            ? `Cart Items : ${data?.data?.products?.length}`
+                            : "Your Cart Is Empty"}
                     </h2>
                     <div className="my-4">
-                        {data?.data?.data?.products?.map((product, index) => {
+                        {data?.data?.products?.map((product, index) => {
                             return (
                                 <div key={index} className="row g-4 my-5">
-                                    <div className="col-md-3">
+                                    <div className="col-md-3 img">
                                         <img
                                             src={product.product.imageCover}
                                             alt=""
                                             className="w-100"
                                         />
                                     </div>
-                                    <div className="col-md-9 row">
-                                        <div className="col-md-8 d-flex justify-content-between flex-column">
+                                    <div className="col-md-9 pt-3 row data">
+                                        <div className="left col-md-8 d-flex justify-content-between flex-column">
                                             <div className="top">
-                                                <h2 className="fw-bolder">
-                                                    {product.product.title
-                                                        .split(" ")
-                                                        .slice(0, 3)
-                                                        .join(" ")}
-                                                </h2>
+                                                <Link
+                                                    className="fit d-block"
+                                                    to={`/product/${product.product.id}`}
+                                                >
+                                                    <h2 className="fw-bolder fit">
+                                                        {product.product.title
+                                                            .split(" ")
+                                                            .slice(0, 3)
+                                                            .join(" ")}
+                                                    </h2>
+                                                </Link>
                                                 <h5 className="text-main fw-bolder">
                                                     {
                                                         product.product.category
@@ -48,11 +130,24 @@ export default function Cart() {
                                                     }
                                                 </h5>
                                             </div>
-                                            <div className="text-main text-capitalize bot">
+                                            <div className="text-main text-capitalize bottom">
+                                                <div
+                                                    className="del mb-2 cursor-pointer"
+                                                    onClick={() =>
+                                                        removeSpecificItem(
+                                                            product.product.id
+                                                        )
+                                                    }
+                                                >
+                                                    <i className="fa-solid text-danger h5 fa-trash"></i>
+                                                    <span className="mx-1 fw-bolder h5 text-danger ">
+                                                        Remove Item
+                                                    </span>
+                                                </div>
                                                 <h4 className="fw-bolder">
                                                     Price : {product.price} EGP
                                                 </h4>
-                                                <h4 className="text-black fw-bold">
+                                                <h4 className="text-black h5 fw-bold">
                                                     rating :{" "}
                                                     {
                                                         product.product
@@ -62,19 +157,63 @@ export default function Cart() {
                                                 </h4>
                                             </div>
                                         </div>
-                                        <div className="col-md-4"></div>
+                                        <div className="right col-md-4 d-flex align-items-center justify-content-end">
+                                            <button
+                                                disabled={product.count <= 1}
+                                                onClick={() => {
+                                                    updateSpecificItem(
+                                                        product.product.id,
+                                                        --product.count
+                                                    );
+                                                }}
+                                                className="btn btn-danger text-white"
+                                            >
+                                                -
+                                            </button>
+                                            <span className="mx-2">
+                                                {product?.count}
+                                            </span>
+                                            <button
+                                                onClick={() => {
+                                                    updateSpecificItem(
+                                                        product.product.id,
+                                                        ++product.count
+                                                    );
+                                                }}
+                                                className="btn btn-success text-white"
+                                            >
+                                                +
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             );
                         })}
                     </div>
-                    <div className="row g-3 py-3 justify-content-between">
-                        <h4 className="text-main fw-bolder bg-body-secondary m-0 rounded-2 fit p-3 d-flex align-items-center text-capitalize">
-                            Total Price : {data?.data?.data?.totalCartPrice}
-                        </h4>
-                        <button className="btn bg-main text-white fit px-5 py-3 fw-bolder">
-                            Check Out
-                        </button>
+                    <div className="d-flex py-3 gy-3 row justify-content-between">
+                        {data?.data?.products?.length ? (
+                            <>
+                                <h4 className="col-md-6 text-main fw-bolder bg-body-secondary m-0 rounded-2 fit p-3  d-flex align-items-center text-capitalize">
+                                    Total Price : {data?.data?.totalCartPrice}
+                                </h4>
+                                <div className="btns ps-0 justify-content-start justify-content-md-end d-flex col-md-6">
+                                    <button
+                                        onClick={clearCart}
+                                        className="btn btn-outline-danger px-4 py-3 fw-bolder"
+                                    >
+                                        Clear Cart
+                                    </button>
+                                    <Link
+                                        to={`/address/${data?.data?._id}`}
+                                        className="btn ms-2 bg-main text-white px-4 py-3 fw-bolder"
+                                    >
+                                        Check Out
+                                    </Link>
+                                </div>
+                            </>
+                        ) : (
+                            ""
+                        )}
                     </div>
                 </div>
             )}

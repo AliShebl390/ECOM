@@ -24,7 +24,7 @@ export default function Product({ product }) {
 
     return (
         <>
-            <div className="col-md-4 col-lg-3 col-xl-2 cursor-pointer ">
+            <div className="col-md-4 col-lg-3 col-xl-2 cursor-pointer">
                 <div className="product p-2 rounded-3 text-capitalize">
                     <Toaster />
                     <Link to={`/product/` + product._id}>

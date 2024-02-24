@@ -31,8 +31,72 @@ export default function CartContextProvider({ children }) {
             .catch((err) => err);
     }
 
+    function removeItem(id) {
+        let options = {
+            headers: {
+                token: localStorage.getItem("userToken"),
+            },
+        };
+        return axios.delete(
+            `https://ecommerce.routemisr.com/api/v1/cart/${id}`,
+            options
+        );
+    }
+    function updateItem(id, count) {
+        let options = {
+            headers: {
+                token: localStorage.getItem("userToken"),
+            },
+        };
+        let body = {
+            count,
+        };
+        return axios.put(
+            `https://ecommerce.routemisr.com/api/v1/cart/${id}`,
+            body,
+            options
+        );
+    }
+
+    function checkOut(cartID, shippingAddress) {
+        return axios
+            .post(
+                `https://ecommerce.routemisr.com/api/v1/orders/${cartID}`,
+                { shippingAddress },
+                {
+                    headers: {
+                        token: localStorage.getItem("userToken"),
+                    },
+                }
+            )
+            .catch((err) => err);
+    }
+
+    function checkOutVisa(cartID, shippingAddress) {
+        return axios
+            .post(
+                `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartID}?url=http://localhost:3000`,
+                { shippingAddress },
+                {
+                    headers: {
+                        token: localStorage.getItem("userToken"),
+                    },
+                }
+            )
+            .catch((err) => err);
+    }
+
     return (
-        <CartContext.Provider value={{ addCart, getCart }}>
+        <CartContext.Provider
+            value={{
+                addCart,
+                getCart,
+                removeItem,
+                updateItem,
+                checkOut,
+                checkOutVisa,
+            }}
+        >
             {children}
         </CartContext.Provider>
     );

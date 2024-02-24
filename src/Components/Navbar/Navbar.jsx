@@ -1,18 +1,32 @@
 import React, { useContext } from "react";
-import styles from "./Navbar.module.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../../Assets/images/freshcart-logo.svg";
 import { UserContext } from "../../Context/UserCotext";
+import Swal from "sweetalert2";
+import { useEffect } from "react";
 
 export default function Navbar() {
-    function logOut() {}
+    let { userData } = useContext(UserContext);
     let { userToken, setUserToken } = useContext(UserContext);
     let navg = useNavigate();
     function LogOut() {
-        localStorage.removeItem("userToken");
-        setUserToken(null);
-        navg("/login");
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#0aad0a",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Log Out",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem("userToken");
+                setUserToken(null);
+                navg("/login");
+            }
+        });
     }
+
     return (
         <>
             <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">

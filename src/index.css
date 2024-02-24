@@ -41,7 +41,6 @@ a:hover {
 .product:hover .btn {
     opacity: 1;
     transform: translateY(0%);
-
 }
 
 .font-sm {
@@ -67,6 +66,13 @@ a:hover {
 .nav-link.active {
     color: #0aad0a !important;
     font-weight: 700;
+}
+
+.nav-link:hover {
+    color: #0aad0a !important;
+    font-weight: 700;
+    transition: none;
+    box-shadow: none;
 }
 
 .products-container,
