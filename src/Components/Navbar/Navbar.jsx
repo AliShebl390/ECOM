@@ -5,6 +5,7 @@ import logo from "../../Assets/images/freshcart-logo.svg";
 import { UserContext } from "../../Context/UserCotext";
 
 export default function Navbar() {
+    function logOut() {}
     let { userToken, setUserToken } = useContext(UserContext);
     let navg = useNavigate();
     function LogOut() {
@@ -14,7 +15,7 @@ export default function Navbar() {
     }
     return (
         <>
-            <nav className="navbar navbar-expand-lg bg-body-tertiary">
+            <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
                 <div className="container-fluid">
                     <NavLink className="navbar-brand" to="/">
                         <img src={logo} alt="fresh cart logo" />
@@ -71,11 +72,9 @@ export default function Navbar() {
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             {userToken !== null ? (
                                 <li className="nav-item d-flex align-items-center">
-                                    <i className="fab mx-2 fa-facebook"></i>
-                                    <i className="fab mx-2 fa-twitter"></i>
-                                    <i className="fab mx-2 fa-instagram"></i>
-                                    <i className="fab mx-2 fa-youtube"></i>
-                                    <i className="fab mx-2 fa-tiktok"></i>
+                                    <Link to={"/cart"}>
+                                        <i className="fa-solid fa-cart-shopping h5 m-0 mx-2 cursor-pointer"></i>
+                                    </Link>
                                 </li>
                             ) : (
                                 ""

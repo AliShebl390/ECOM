@@ -48,7 +48,7 @@ export default function Register() {
                 setSuc("");
                 setLoading(true);
             });
-        if (req.data.message == "success") {
+        if (req.data.message === "success") {
             setSuc(req.data.message);
             setUserToken(req.data.token);
             setLoading(true);

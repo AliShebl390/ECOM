@@ -13,8 +13,14 @@ import ForgetPassword from "./Components/ForgetPassword/ForgetPassword";
 import GuardRouting from "./Components/GuardRouting/GuardRouting";
 import RegisterCheck from "./Components/RegisterCheck/RegisterCheck";
 import ResetPassword from "./Components/ResetPassword/ResetPassword";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import ProductDetails from "./Components/ProductDetails/ProductDetails";
+import CartContextProvider from "./Context/CartContext";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
+    let query = new QueryClient();
     let routes = createBrowserRouter([
         {
             path: "/",
@@ -37,6 +43,16 @@ function App() {
                         </GuardRouting>
                     ),
                 },
+
+                {
+                    path: "/product/:id",
+                    element: (
+                        <GuardRouting>
+                            <ProductDetails />
+                        </GuardRouting>
+                    ),
+                },
+
                 {
                     path: "/Cart",
                     element: (
@@ -80,9 +96,14 @@ function App() {
     ]);
 
     return (
-        <UserCotextProvider>
-            <RouterProvider router={routes}></RouterProvider>
-        </UserCotextProvider>
+        <QueryClientProvider client={query}>
+            <ReactQueryDevtools />
+            <UserCotextProvider>
+                <CartContextProvider>
+                    <RouterProvider router={routes}></RouterProvider>
+                </CartContextProvider>
+            </UserCotextProvider>
+        </QueryClientProvider>
     );
 }
 
