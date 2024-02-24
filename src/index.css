@@ -27,9 +27,14 @@ a:hover {
     text-decoration: none;
 }
 
-.product:hover {
+.product:hover,
+.card:hover {
     box-shadow: var(--shadow);
     border: solid 1px var(--main-color);
+}
+
+.card {
+    transition: 300ms;
 }
 
 .product .btn {
