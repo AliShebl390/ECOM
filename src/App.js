@@ -20,6 +20,8 @@ import CartContextProvider from "./Context/CartContext";
 import Address from "./Components/Adress/Address";
 import LoginCheck from "./Components/loginCheck/loginCheck";
 import VerifyCode from "./Components/VerifyCode/VerifyCode";
+import WishList from "./Components/wishList/wishList";
+import WhisListContextProvider from "./Context/WhisListContext";
 
 function App() {
     let query = new QueryClient();
@@ -72,6 +74,16 @@ function App() {
                         </GuardRouting>
                     ),
                 },
+
+                {
+                    path: "/wishList",
+                    element: (
+                        <GuardRouting>
+                            <WishList />
+                        </GuardRouting>
+                    ),
+                },
+
                 {
                     path: "/Categories",
                     element: (
@@ -119,11 +131,13 @@ function App() {
     return (
         <QueryClientProvider client={query}>
             <ReactQueryDevtools />
-            <UserCotextProvider>
-                <CartContextProvider>
-                    <RouterProvider router={routes}></RouterProvider>
-                </CartContextProvider>
-            </UserCotextProvider>
+            <WhisListContextProvider>
+                <UserCotextProvider>
+                    <CartContextProvider>
+                        <RouterProvider router={routes}></RouterProvider>
+                    </CartContextProvider>
+                </UserCotextProvider>
+            </WhisListContextProvider>
         </QueryClientProvider>
     );
 }

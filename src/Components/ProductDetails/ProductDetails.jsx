@@ -9,7 +9,7 @@ import { CartContext } from "../../Context/CartContext";
 export default function ProductDetails() {
     let proID = useParams();
     let [productId, setProductId] = useState("");
-    let { addCart } = useContext(CartContext);
+    let { addCart, setCartCounter } = useContext(CartContext);
     async function getProductDetails(queryData) {
         return await axios.get(
             `https://ecommerce.routemisr.com/api/v1/products/${queryData.queryKey[1]}`
@@ -29,6 +29,7 @@ export default function ProductDetails() {
                 },
                 position: "top-left",
             });
+            setCartCounter(response.data.numOfCartItems);
         }
     }
 

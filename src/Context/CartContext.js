@@ -1,9 +1,11 @@
 import axios from "axios";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 export let CartContext = createContext();
 
 export default function CartContextProvider({ children }) {
+    let [cartCounter, setCartCounter] = useState(null);
+
     function addCart(id) {
         let options = {
             headers: {
@@ -95,6 +97,8 @@ export default function CartContextProvider({ children }) {
                 updateItem,
                 checkOut,
                 checkOutVisa,
+                cartCounter,
+                setCartCounter,
             }}
         >
             {children}

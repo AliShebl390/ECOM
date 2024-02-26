@@ -31,7 +31,7 @@ export default function Products() {
     return (
         <>
             {isLoading && <Loader />}
-            <div className="container my-5 p-5 pb-2 products-container rounded-3">
+            <div className="container mb-5 p-5 pb-2">
                 <div className="row 5">
                     {data?.data.data.map((product) => {
                         return <Product key={product._id} product={product} />;

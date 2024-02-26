@@ -4,11 +4,14 @@ import logo from "../../Assets/images/freshcart-logo.svg";
 import { UserContext } from "../../Context/UserCotext";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
+import { CartContext } from "../../Context/CartContext";
 
 export default function Navbar() {
+    let navg = useNavigate();
     let { userData } = useContext(UserContext);
     let { userToken, setUserToken } = useContext(UserContext);
-    let navg = useNavigate();
+    let { cartCounter } = useContext(CartContext);
+
     function LogOut() {
         Swal.fire({
             title: "Are you sure?",
@@ -85,11 +88,28 @@ export default function Navbar() {
 
                         <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
                             {userToken !== null ? (
-                                <li className="nav-item d-flex align-items-center">
-                                    <Link to={"/cart"}>
-                                        <i className="fa-solid fa-cart-shopping h5 m-0 mx-2 cursor-pointer"></i>
-                                    </Link>
-                                </li>
+                                <>
+                                    <li className="nav-item d-flex align-items-center">
+                                        <Link
+                                            to={"/wishList"}
+                                            className="d-flex align-items-center"
+                                        >
+                                            <i className="fa-solid align-items-center mb-lg-0 mb-3 mx-2 h5 fa-heart"></i>
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item d-flex align-items-center">
+                                        <Link
+                                            to={"/cart"}
+                                            className="d-flex align-items-center"
+                                        >
+                                            <i className="cart-icon fa-solid fa-cart-shopping h5 m-0 mx-2 cursor-pointer">
+                                                <p className="cart-num">
+                                                    {cartCounter}{" "}
+                                                </p>
+                                            </i>
+                                        </Link>
+                                    </li>
+                                </>
                             ) : (
                                 ""
                             )}
