@@ -22,6 +22,7 @@ import LoginCheck from "./Components/loginCheck/loginCheck";
 import VerifyCode from "./Components/VerifyCode/VerifyCode";
 import WishList from "./Components/wishList/wishList";
 import WhisListContextProvider from "./Context/WhisListContext";
+import Profile from "./Components/Profile/Profile";
 
 function App() {
     let query = new QueryClient();
@@ -80,6 +81,15 @@ function App() {
                     element: (
                         <GuardRouting>
                             <WishList />
+                        </GuardRouting>
+                    ),
+                },
+
+                {
+                    path: "/allorders",
+                    element: (
+                        <GuardRouting>
+                            <Profile />
                         </GuardRouting>
                     ),
                 },

@@ -7,7 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 export default function Address() {
     let navg = useNavigate();
-    let { checkOut, checkOutVisa } = useContext(CartContext);
+    let { checkOut, checkOutVisa, setCartCounter } = useContext(CartContext);
     let cartId = useParams().id;
     let [isLoading, setIsLoading] = useState(false);
     const phoneRegExp =
@@ -34,6 +34,7 @@ export default function Address() {
         setIsLoading(true);
         let response = await checkOut(cartId, val).catch((err) => err);
         if (response.data.status === "success") {
+            setCartCounter(0)
             navg("/");
         }
         setIsLoading(false);

@@ -5,8 +5,28 @@ import Loader from "../Loader/Loader";
 import { useQuery } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { CartContext } from "../../Context/CartContext";
+import Slider from "react-slick";
 
 export default function ProductDetails() {
+    let settings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        arrows: false,
+        autoplay: true,
+        autoplaySpeed: 2000,
+        responsive: [
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    initialSlide: 2,
+                },
+            },
+        ],
+    };
     let proID = useParams();
     let [productId, setProductId] = useState("");
     let { addCart, setCartCounter } = useContext(CartContext);
@@ -49,12 +69,20 @@ export default function ProductDetails() {
             {product ? (
                 <div className="container py-5">
                     <div className="row justify-content-between align-items-center">
-                        <div className="col-md-3">
-                            <img
-                                src={product.imageCover}
-                                className="w-100"
-                                alt=""
-                            />
+                        <div className="col-md-3 mb-4">
+                            <Slider {...settings}>
+                                {product?.images?.map((el) => {
+                                    return (
+                                        <div className="item slide" key={el}>
+                                            <img
+                                                className="w-100"
+                                                src={el}
+                                                alt=""
+                                            />
+                                        </div>
+                                    );
+                                })}
+                            </Slider>
                         </div>
                         <div className="col-md-8 text-capitalize flex-column d-flex gap-2">
                             <h3 className="fw-bold m-0">{product.title}</h3>

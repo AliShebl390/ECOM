@@ -55,7 +55,7 @@ export default function Register() {
     // ############################################
     return (
         <>
-            <div className="container py-5">
+            <div className="container my-5 py-5">
                 <h2>Login Now!</h2>
                 {errMes && !sucMes ? (
                     <div className="text-capitalize alert alert-danger">

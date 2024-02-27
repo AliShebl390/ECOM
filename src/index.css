@@ -94,6 +94,10 @@ div a {
     color: black;
 }
 
+.fa-heart {
+    transition: 400ms;
+}
+
 /* Loader */
 .loading {
     z-index: 10000;

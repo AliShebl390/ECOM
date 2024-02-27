@@ -3,6 +3,7 @@ import axios from "axios";
 import Loader from "../Loader/Loader";
 import { useQuery } from "react-query";
 import Product from "../Product/Product";
+import { Link } from "react-router-dom";
 
 export default function Products() {
     let [page, setPage] = useState(1);
@@ -38,16 +39,22 @@ export default function Products() {
                     })}
                 </div>
                 <nav aria-label="Page navigation example" className="mt-4 ">
-                    <ul className="pagination align-items-center justify-content-center">
-                        <li className="page-item cursor-pointer">
-                            <a className="page-link" onClick={() => getPage(1)}>
+                    <ul className="pagination align-items-center  justify-content-center">
+                        <li className="page-item cursor-pointer ">
+                            <Link
+                                className="page-link  text-black"
+                                onClick={() => getPage(1)}
+                            >
                                 1
-                            </a>
+                            </Link>
                         </li>
-                        <li className="page-item cursor-pointer">
-                            <a className="page-link" onClick={() => getPage(2)}>
+                        <li className="page-item cursor-pointer ">
+                            <Link
+                                className="page-link  text-black"
+                                onClick={() => getPage(2)}
+                            >
                                 2
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </nav>

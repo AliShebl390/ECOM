@@ -10,7 +10,7 @@ export function UserCotextProvider({ children }) {
             let data = jwtDecode(localStorage.getItem("userToken"));
             setUserData(data);
         }
-    }, []);
+    }, [userToken]);
     return (
         <UserContext.Provider value={{ userToken, setUserToken, userData }}>
             {children}

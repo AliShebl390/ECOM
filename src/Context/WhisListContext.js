@@ -1,10 +1,13 @@
 import axios from "axios";
-import React, { createContext } from "react";
+import React, { createContext, useState } from "react";
 
 export let wishContext = createContext();
 export default function WhisListContextProvider({ children }) {
+    let [wishCounter, setWishCounter] = useState(null);
+    let [wishColorList, setWishColorList] = useState([]);
+    
+
     function addWish(e, productId) {
-        console.log(e.currentTarget.children[0]);
         let body = {
             productId,
         };
@@ -32,8 +35,29 @@ export default function WhisListContextProvider({ children }) {
             options
         );
     }
+    function removeWish(id) {
+        let options = {
+            headers: {
+                token: localStorage.getItem("userToken"),
+            },
+        };
+        return axios.delete(
+            `https://ecommerce.routemisr.com/api/v1/wishlist/${id}`,
+            options
+        );
+    }
     return (
-        <wishContext.Provider value={{ addWish, getWish }}>
+        <wishContext.Provider
+            value={{
+                addWish,
+                getWish,
+                removeWish,
+                wishCounter,
+                setWishCounter,
+                wishColorList,
+                setWishColorList,
+            }}
+        >
             {children}
         </wishContext.Provider>
     );

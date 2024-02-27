@@ -6,7 +6,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 
 export default function Cart() {
-    let { getCart, removeItem, updateItem } = useContext(CartContext);
+    let { getCart, removeItem, updateItem, setCartCounter } =
+        useContext(CartContext);
     let [isLoading, setIsLoading] = useState(false);
     let [data, setData] = useState(null);
 
@@ -26,6 +27,7 @@ export default function Cart() {
 
     async function removeSpecificItem(id) {
         let response = await removeItem(id).catch((err) => err);
+
         if (response.data.status === "success") {
             toast.error("Item Is Removed", {
                 style: {
@@ -39,6 +41,7 @@ export default function Cart() {
             });
             setData(response.data);
             setIsLoading(false);
+            setCartCounter(response.data.numOfCartItems);
         }
     }
     async function clearCart() {
@@ -66,6 +69,7 @@ export default function Cart() {
             setIsLoading(false);
         }
         setData(null);
+        setCartCounter(0);
     }
 
     async function updateSpecificItem(id, count) {
@@ -93,10 +97,14 @@ export default function Cart() {
             ) : (
                 <div className="container rounded-3 p-5 my-5 cart">
                     <Toaster />
-                    <h2 className="text-black bg-body-secondary fw-bolder rounded-2 p-3 text-center">
-                        {data?.data?.products?.length
-                            ? `Cart Items : ${data?.data?.products?.length}`
-                            : "Your Cart Is Empty"}
+                    <h2 className="text-black  py-5 my-5 fw-bolder rounded-2 p-3 text-center">
+                        {data?.data?.products?.length ? (
+                            <p className="bg-body-secondary py-4 rounded-3">
+                                Cart Items : {data?.data?.products?.length}
+                            </p>
+                        ) : (
+                            <p className="my-5 text-main">Your Cart Is Empty</p>
+                        )}
                     </h2>
                     <div className="my-4">
                         {data?.data?.products?.map((product, index) => {

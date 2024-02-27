@@ -5,12 +5,15 @@ import { UserContext } from "../../Context/UserCotext";
 import Swal from "sweetalert2";
 import { useEffect } from "react";
 import { CartContext } from "../../Context/CartContext";
+import WishList from "../wishList/wishList";
+import { wishContext } from "../../Context/WhisListContext";
 
 export default function Navbar() {
     let navg = useNavigate();
     let { userData } = useContext(UserContext);
     let { userToken, setUserToken } = useContext(UserContext);
     let { cartCounter } = useContext(CartContext);
+    let { wishCounter } = useContext(wishContext);
 
     function LogOut() {
         Swal.fire({
@@ -81,6 +84,14 @@ export default function Navbar() {
                                         Brands
                                     </NavLink>
                                 </li>
+                                <li className="nav-item">
+                                    <NavLink
+                                        className="nav-link"
+                                        to="/allorders"
+                                    >
+                                        Profile
+                                    </NavLink>
+                                </li>
                             </ul>
                         ) : (
                             ""
@@ -94,7 +105,11 @@ export default function Navbar() {
                                             to={"/wishList"}
                                             className="d-flex align-items-center"
                                         >
-                                            <i className="fa-solid align-items-center mb-lg-0 mb-3 mx-2 h5 fa-heart"></i>
+                                            <i className="cart-icon fa-solid align-items-center mb-lg-0 mb-3 mx-2 h5 fa-heart">
+                                                <p className="cart-num">
+                                                    {wishCounter}{" "}
+                                                </p>
+                                            </i>
                                         </Link>
                                     </li>
                                     <li className="nav-item d-flex align-items-center">
@@ -104,7 +119,7 @@ export default function Navbar() {
                                         >
                                             <i className="cart-icon fa-solid fa-cart-shopping h5 m-0 mx-2 cursor-pointer">
                                                 <p className="cart-num">
-                                                    {cartCounter}{" "}
+                                                    {cartCounter ? cartCounter : 0}{" "}
                                                 </p>
                                             </i>
                                         </Link>
