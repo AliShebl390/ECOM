@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import axios from "axios";
 import Loader from "../Loader/Loader";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 
 export default function Brands() {
     function getBrands() {
@@ -37,6 +38,14 @@ export default function Brands() {
                 <Loader />
             ) : (
                 <div className="container p-5 products-container mt-5 rounded-3">
+                    <Helmet>
+                        <meta charSet="utf-8" />
+                        <title>Fresh Cart - Brands</title>
+                        <link
+                            rel="canonical"
+                            href="http://mysite.com/example"
+                        />
+                    </Helmet>{" "}
                     <div className="row g-5">
                         {data?.data?.data?.map((brand) => {
                             return (

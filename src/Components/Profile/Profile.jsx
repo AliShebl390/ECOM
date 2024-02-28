@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Loader from "../Loader/Loader";
+import { Helmet } from "react-helmet";
 
 export default function Profile() {
     let { userData } = useContext(UserContext);
@@ -24,6 +25,14 @@ export default function Profile() {
         <>
             {userOrders ? (
                 <div className="container  p-md-5  mt-5 rounded-3">
+                    <Helmet>
+                        <meta charSet="utf-8" />
+                        <title>Fresh Cart - Profile</title>
+                        <link
+                            rel="canonical"
+                            href="http://mysite.com/example"
+                        />
+                    </Helmet>
                     <h2 className="text-capitalize">
                         Welcome, {userData?.name}
                     </h2>
@@ -42,7 +51,7 @@ export default function Profile() {
                         ""
                     )}
                     {userOrders[0] ? (
-                        <main className="rounded-3 ">
+                        <main className="rounded-3 d-flex flex-column-reverse">
                             {userOrders.map((order) => {
                                 return (
                                     <div

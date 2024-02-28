@@ -6,6 +6,8 @@ import { useQuery } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { CartContext } from "../../Context/CartContext";
 import Slider from "react-slick";
+import { Helmet } from "react-helmet";
+import favicon from "../../Assets/images/online-store.png";
 
 export default function ProductDetails() {
     let settings = {
@@ -68,6 +70,19 @@ export default function ProductDetails() {
             {isLoading && <Loader />}
             {product ? (
                 <div className="container py-5">
+                    <Helmet>
+                        <meta charSet="utf-8" />
+                        <title>
+                            {`Fresh Cart - ${
+                                product ? product.title : "Product Details"
+                            }`}
+                        </title>
+                        <link
+                            rel="shortcut icon"
+                            href={favicon}
+                            type="image/x-icon"
+                        />
+                    </Helmet>
                     <div className="row justify-content-between align-items-center">
                         <div className="col-md-3 mb-4">
                             <Slider {...settings}>

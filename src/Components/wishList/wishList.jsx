@@ -1,17 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { wishContext } from "../../Context/WhisListContext";
-import { useQuery } from "react-query";
 import toast, { Toaster } from "react-hot-toast";
 import { CartContext } from "../../Context/CartContext";
+import { Helmet } from "react-helmet";
 
 export default function WishList() {
-    let {
-        getWish,
-        removeWish,
-        setWishCounter,
-        setWishColorList,
-        wishColorList,
-    } = useContext(wishContext);
+    let { getWish, removeWish, setWishCounter, setWishColorList } =
+        useContext(wishContext);
     let { addCart, setCartCounter } = useContext(CartContext);
     let [data, setData] = useState(null);
 
@@ -69,12 +64,22 @@ export default function WishList() {
 
     return (
         <div className="container my-5 p-5 cart rounded-3">
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Fresh Cart - Wish List</title>
+                <link rel="canonical" href="http://mysite.com/example" />
+            </Helmet>
             <Toaster />
             <h2 className="text-black my-t  fw-bolder rounded-2 p-3 text-center">
                 {data?.data.length > 0 ? (
-                    <p className="bg-body-secondary py-4 rounded-3"> Whish List Items : {data?.data?.length}</p>
+                    <p className="bg-body-secondary py-4 rounded-3">
+                        {" "}
+                        Whish List Items : {data?.data?.length}
+                    </p>
                 ) : (
-                    <p className="py-5 my-5 text-main">Your Whish List Is Empty</p>
+                    <p className="py-5 my-5 text-main">
+                        Your Whish List Is Empty
+                    </p>
                 )}
             </h2>
 

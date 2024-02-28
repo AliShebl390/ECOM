@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/UserCotext";
+import { Helmet } from "react-helmet";
 
 export default function Register() {
     const navg = useNavigate();
@@ -19,7 +20,7 @@ export default function Register() {
             .required("Email is required"),
         password: Yup.string().required("Password is required"),
     });
-    
+
     let formik = useFormik({
         //intial values
         initialValues: {
@@ -56,6 +57,11 @@ export default function Register() {
     return (
         <>
             <div className="container my-5 py-5">
+                <Helmet>
+                    <meta charSet="utf-8" />
+                    <title>Fresh Cart</title>
+                    <link rel="canonical" href="http://mysite.com/example" />
+                </Helmet>
                 <h2>Login Now!</h2>
                 {errMes && !sucMes ? (
                     <div className="text-capitalize alert alert-danger">

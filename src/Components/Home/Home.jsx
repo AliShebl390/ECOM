@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet";
 import CategorySlider from "../CategorySlider/CategorySlider";
 import Products from "../Products/Products";
 import HomeSlider from "../Slider/HomeSlider";
@@ -8,6 +9,11 @@ export default function Home() {
             <HomeSlider />
             <CategorySlider />
             <Products />
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Fresh Cart - Home</title>
+                <link rel="canonical" href="http://mysite.com/example" />
+            </Helmet>
         </div>
     );
 }

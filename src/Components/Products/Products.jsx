@@ -4,6 +4,7 @@ import Loader from "../Loader/Loader";
 import { useQuery } from "react-query";
 import Product from "../Product/Product";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 export default function Products() {
     const [query, setQuery] = useState("");
@@ -51,6 +52,11 @@ export default function Products() {
         <>
             {isLoading && <Loader />}
             <div className="container mb-5 p-5 pb-2">
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Fresh Cart - Products</title>
+                <link rel="canonical" href="http://mysite.com/example" />
+            </Helmet>
                 <input
                     type="text"
                     className="form-control mx-auto search my-3"

@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
-import styles from "./Layout.module.css";
+import React, { useContext, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import { UserContext } from "../../Context/UserCotext";
 import { CartContext } from "../../Context/CartContext";
-import { data } from "jquery";
 import { wishContext } from "../../Context/WhisListContext";
 import Footer from "../Footer/Footer";
+import { Helmet } from "react-helmet";
 
 export default function Layout() {
-    let { setUserToken } = useContext(UserContext);
+    let { setUserToken, userData } = useContext(UserContext);
     let { getCart, setCartCounter } = useContext(CartContext);
-    let { getWish, setWishCounter, setWishColorList } = useContext(wishContext);
+    let { getWish, setWishCounter, setWishColorList, wishColorList } =
+        useContext(wishContext);
 
     async function getData() {
         let response = await getCart().catch((err) => err);
@@ -23,7 +23,7 @@ export default function Layout() {
     async function getWishList() {
         let { data } = await getWish().catch((err) => err);
         setWishCounter(data.data.length);
-        setWishColorList(JSON.parse(localStorage.getItem("ColorList")));
+        setWishColorList(data?.data?.map((item) => item.id));
     }
 
     useEffect(() => {
@@ -32,9 +32,16 @@ export default function Layout() {
             getData();
             getWishList();
         }
-    }, []);
+    }, [userData]);
+
+
     return (
         <>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Fresh Cart </title>
+                <link rel="canonical" href="http://mysite.com/example" />
+            </Helmet>
             <Navbar />
             <div className=" pt-5 layout">
                 <Outlet></Outlet>

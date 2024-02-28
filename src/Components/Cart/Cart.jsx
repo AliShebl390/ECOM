@@ -4,6 +4,7 @@ import Loader from "../Loader/Loader";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 export default function Cart() {
     let { getCart, removeItem, updateItem, setCartCounter } =
@@ -97,6 +98,14 @@ export default function Cart() {
             ) : (
                 <div className="container rounded-3 p-5 my-5 cart">
                     <Toaster />
+                    <Helmet>
+                        <meta charSet="utf-8" />
+                        <title>Fresh Cart - Cart</title>
+                        <link
+                            rel="canonical"
+                            href="http://mysite.com/example"
+                        />
+                    </Helmet>
                     <h2 className="text-black  py-5 my-5 fw-bolder rounded-2 p-3 text-center">
                         {data?.data?.products?.length ? (
                             <p className="bg-body-secondary py-4 rounded-3">
