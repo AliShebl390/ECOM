@@ -7,7 +7,7 @@ export default function Footer() {
             <div className="container py-5 ">
                 <h2>Get Fresh Cart App</h2>
                 <p className="muted" style={{ fontSize: "15px" }}>
-                    We will send you a link, open iton your phone to download
+                    We will send you a link, open it on your phone to download
                     the app.
                 </p>
                 <div className="row">
