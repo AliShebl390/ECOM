@@ -1,4 +1,8 @@
-import { RouterProvider, createBrowserRouter, createHashRouter } from "react-router-dom";
+import {
+    RouterProvider,
+    createBrowserRouter,
+    createHashRouter,
+} from "react-router-dom";
 import Home from "./Components/Home/Home";
 import Products from "./Components/Products/Products";
 import Cart from "./Components/Cart/Cart";
@@ -140,7 +144,6 @@ function App() {
 
     return (
         <QueryClientProvider client={query}>
-            <ReactQueryDevtools />
             <WhisListContextProvider>
                 <UserCotextProvider>
                     <CartContextProvider>
